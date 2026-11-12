@@ -1,0 +1,15 @@
+{
+  "name": "aguibana",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Another guitar backtracking and noodling app.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^6.0.0"
+  }
+}

@@ -22,8 +22,20 @@ Another guitar backtracking and noodling app.
 - `smp/`: recorded samples and `manifest.json` (guitar, bass and three drum kits).
 
 ## Running it
-The samples are loaded with `fetch()`, which browsers block for files opened straight from disk.
-Serve the folder with any local web server, for example:
+The samples are loaded with `fetch()`, which browsers block for files opened straight from disk, so the
+app needs to be served over HTTP, not opened as a plain file.
+
+### With npm
+    npm install
+    npm run dev       # dev server with hot reload, http://localhost:5173
+    npm run build     # production build (minified, hashed assets) into dist/
+    npm run preview   # serve the dist/ build locally, to sanity-check it before deploying
+
+If you add `smp/` (recorded samples), put it under `public/smp/` so `npm run build` copies it into
+`dist/smp/` unprocessed — anything in `public/` is served as-is at the site root.
+
+### Without npm
+Any local web server works, for example:
 
     cd aguibana
     python3 -m http.server 8000
