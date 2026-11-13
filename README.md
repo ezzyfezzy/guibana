@@ -1,50 +1,82 @@
 # Guibana
-Guitar backtracking and noodling app.
 
-## Files
-- `index.html`: markup only.
-- `css/styles.css`: all styling.
-- `js/`: the app logic, as ES modules:
-  - `dom.js` — tiny `$`/`esc` DOM helpers.
-  - `theory.js` — scales, chord parsing, strum/bass/drum pattern tables, key-fit scoring.
-  - `arrangement.js` — the arrangement (sets/lines) data model: parsing, text<->JSON, sequencing.
-  - `state.js` — persisted settings (localStorage) and the shared in-memory runtime state.
-  - `audio.js` — the Web Audio synth/sample engine, tone and mixer controls.
-  - `board.js` — fretboard SVG drawing and note-spelling helpers.
-  - `readout.js` — the "notes to noodle with" tiles and chord chips.
-  - `dropdown.js` — the sound-style picker.
-  - `songmap.js` — the section timeline and count-in.
-  - `playback.js` — the backing-loop sequencer (play/stop).
-  - `editor.js` — the arrangement dialog (block editor, text editor, import/export).
-  - `songlinks.js` — encoding/decoding songs into the page's URL hash.
-  - `ai-prompt.js` — the "Make with AI" pane.
-  - `app.js` — composition root: wires the modules together and boots the app.
-- `public/smp/`: recorded samples and `manifest.json` (guitar, bass and three drum kits). Lives under
-  `public/` so `npm run build` copies it into `dist/smp/` unprocessed. `smp/` at the repo root is a
-  symlink to it, so the no-build/plain-file-server path below still finds it at the same relative path.
+**Guitar backtracking and noodling app.**
 
-## Running it
-The samples are loaded with `fetch()`, which browsers block for files opened straight from disk, so the
-app needs to be served over HTTP, not opened as a plain file.
+Type in a song's chords and Guibana gives you one set of notes that sounds good
+over all of them, lit up on a fretboard in real time as a backing loop plays.
+No music theory required — just land on the gold notes.
 
-### With npm
-    npm install
-    npm run dev       # dev server with hot reload, http://localhost:5173
-    npm run build     # production build (minified, hashed assets) into dist/
-    npm run preview   # serve the dist/ build locally, to sanity-check it before deploying
+```
+A  C  D
+```
 
-### Without npm
-Any local web server works, for example:
+→ a fretboard, a backing track, and the notes that fit.
 
-    cd guibana
-    python3 -m http.server 8000
+## What it does
 
-then open http://localhost:8000. Opened as a plain file, the app still works but falls back to its built-in synth sounds.
+- **Type chords, get notes.** Paste a chord sequence (`Am F C G`) and see the
+  scale that fits the whole song, plus which notes belong to whatever chord is
+  playing right now.
+- **Build real arrangements.** Go beyond a flat chord list: verses, choruses,
+  repeats, strum/bass/drum patterns, tempo and section markers, with a visual
+  timeline and count-in.
+- **Play along.** A backing loop (guitar, bass, and drums) keeps time while
+  the fretboard highlights what to play, in "easy box" or "whole neck" view,
+  labeled by note name or interval.
+- **Make a song with AI.** Paste a chord chart or tab into the "Make with AI"
+  pane to generate a ready-to-play arrangement.
+- **Share without a server.** Arrangements encode into the page URL, so a song
+  can be shared with just a link, or exported/imported as JSON.
 
-Outside claude.ai the "Download JSON" button is hidden (it uses a Claude artifact feature). Use "Copy JSON" instead.
+## Try it
+
+```bash
+npm install
+npm run dev
+```
+
+Then open the printed `http://localhost:5173` URL. The fretboard needs audio
+samples loaded over `fetch()`, so the app must be served over HTTP — opening
+`index.html` directly from disk still works, but falls back to a built-in
+synth instead of the recorded samples.
+
+```bash
+npm run build     # production build into dist/
+npm run preview   # serve that build locally
+```
+
+No npm? Any static file server works just as well:
+
+```bash
+cd guibana
+python3 -m http.server 8000
+```
+
+## Under the hood
+
+A plain HTML/CSS/JS app — no framework, no build step required to run it.
+
+| | |
+|---|---|
+| `index.html` | markup |
+| `css/styles.css` | all styling |
+| `js/theory.js` | scales, chord parsing, pattern tables, key-fit scoring |
+| `js/arrangement.js` | the song data model: parsing, text ↔ JSON, sequencing |
+| `js/audio.js` | the Web Audio synth/sample engine |
+| `js/board.js` | fretboard SVG and note-spelling |
+| `js/playback.js` | the backing-loop sequencer |
+| `js/editor.js` | arrangement editor (block/text views, import/export) |
+| `js/songlinks.js` | encoding songs into the URL hash |
+| `js/ai-prompt.js` | the "Make with AI" pane |
+| `js/app.js` | wires everything together and boots the app |
+| `public/smp/` | recorded guitar/bass/drum samples |
+
+Outside claude.ai, the "Download JSON" button is hidden (it depends on a
+Claude artifact feature) — use "Copy JSON" instead.
 
 ## Credits
-- Guitar and bass samples: tonejs-instruments by Nicholas Brosowsky, CC BY 3.0
-  (https://github.com/nbrosowsky/tonejs-instruments), re-encoded and trimmed.
-- Drum kits: GeneralUser GS by S. Christian Collins (https://schristiancollins.com/generaluser.php),
-  rendered from the SoundFont. GeneralUser GS License v2.0.
+
+- Guitar and bass samples: [tonejs-instruments](https://github.com/nbrosowsky/tonejs-instruments)
+  by Nicholas Brosowsky, CC BY 3.0, re-encoded and trimmed.
+- Drum kits: [GeneralUser GS](https://schristiancollins.com/generaluser.php)
+  by S. Christian Collins, rendered from the SoundFont. GeneralUser GS License v2.0.
