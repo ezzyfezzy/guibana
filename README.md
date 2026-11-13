@@ -2,6 +2,8 @@
 
 **Guitar backtracking and noodling app.**
 
+**[Try it live](https://ezzyfezzy.github.io/guibana/)** — no install needed.
+
 Type in a song's chords and Guibana gives you one set of notes that sounds good
 over all of them, lit up on a fretboard in real time as a backing loop plays.
 No music theory required — just land on the gold notes.
