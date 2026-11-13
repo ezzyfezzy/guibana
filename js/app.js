@@ -80,7 +80,7 @@ function renderAll(){buildBlocks();renderTimeline();renderMix();renderToneSel();
 /* ---------- wire up modules that need callbacks back into this composition root ---------- */
 initDropdown({renderAll});
 initEditor({analyseSong, renderAll, stopPlay, startPlay, syncTempo});
-initSongLinks({analyseSong, renderAll, stopPlay});
+initSongLinks({analyseSong, renderAll, stopPlay, syncTempo});
 initSongMap({startPlay});
 
 /* ---------- bootstrap ---------- */
