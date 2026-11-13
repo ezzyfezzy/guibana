@@ -155,14 +155,14 @@ $('exBtn').onclick=()=>{rt.draft=JSON.parse(JSON.stringify(EXAMPLE)); $('arrName
   refreshDraft(); msg('Loaded the example. Press Save and play to hear it.');};
 
 /* export / import */
-function exportObj(){return {app:'aguibana',version:1,name:$('arrName').value||rt.draft.name||'My song',tempo:state.tempo,style:state.style,tone:state.tone,sets:cleanArr(rt.draft).sets};}
+function exportObj(){return {app:'guibana',version:1,name:$('arrName').value||rt.draft.name||'My song',tempo:state.tempo,style:state.style,tone:state.tone,sets:cleanArr(rt.draft).sets};}
 function slug(s){return (s||'arrangement').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'arrangement';}
 let downloads=null;
 (async()=>{try{ if(window.claude&&window.claude.use){ downloads=await window.claude.use('downloads'); } }catch(e){} $('dlBtn').hidden=!downloads;})();
 $('dlBtn').onclick=async()=>{
   if(!downloads) return;
   const o=exportObj();
-  try{const r=await downloads.save({filename:slug(o.name)+'.aguibana.json',data:JSON.stringify(o,null,2)}); if(r&&r.status==='saved') msg('Saved '+slug(o.name)+'.aguibana.json.');}
+  try{const r=await downloads.save({filename:slug(o.name)+'.guibana.json',data:JSON.stringify(o,null,2)}); if(r&&r.status==='saved') msg('Saved '+slug(o.name)+'.guibana.json.');}
   catch(err){const c=err&&err.code;
     if(c==='declined') msg('Download cancelled.');
     else if(c==='rate_limited') msg('A save prompt is already open. Try again in a moment.',true);

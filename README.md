@@ -1,5 +1,5 @@
-# Aguibana
-Another guitar backtracking and noodling app.
+# Guibana
+Guitar backtracking and noodling app.
 
 ## Files
 - `index.html`: markup only.
@@ -36,7 +36,7 @@ app needs to be served over HTTP, not opened as a plain file.
 ### Without npm
 Any local web server works, for example:
 
-    cd aguibana
+    cd guibana
     python3 -m http.server 8000
 
 then open http://localhost:8000. Opened as a plain file, the app still works but falls back to its built-in synth sounds.

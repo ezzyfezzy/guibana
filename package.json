@@ -1,8 +1,8 @@
 {
-  "name": "aguibana",
+  "name": "guibana",
   "private": true,
   "version": "1.0.0",
-  "description": "Another guitar backtracking and noodling app.",
+  "description": "Guitar backtracking and noodling app.",
   "type": "module",
   "scripts": {
     "dev": "vite",
