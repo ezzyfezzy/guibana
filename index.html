@@ -57,20 +57,22 @@
             <ul class="dd-panel" id="ddPanel" role="listbox" aria-labelledby="ddLabel" tabindex="-1" hidden></ul>
           </div>
         </div>
-        <div class="readout" aria-live="polite">
-          <div>
-            <span class="eyebrow">Notes to noodle with</span>
-            <div class="tiles" id="tiles"></div>
-          </div>
-          <details class="inlineInfo">
-            <summary>Why these notes</summary>
-            <p class="sum" id="sum"></p>
-            <p class="homeline" id="homeline"></p>
-          </details>
-          <div class="now">
-            <span class="cn" id="nowName"></span>
-            <p id="nowTxt"></p>
-            <span class="next" id="nextTxt" hidden></span>
+        <div class="notesdd" aria-live="polite">
+          <span class="eyebrow" id="notesLabel">Notes to noodle with</span>
+          <div class="dd" id="notesDd">
+            <div class="dd-btn notes-btn">
+              <div class="tiles" id="tiles"></div>
+              <div class="now">
+                <span class="cn" id="nowName"></span>
+                <p id="nowTxt"></p>
+                <span class="next" id="nextTxt" hidden></span>
+              </div>
+              <button class="chev-btn" id="notesToggle" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="notesPanel" aria-label="Why these notes"><span class="chev"></span></button>
+            </div>
+            <div class="dd-panel notes-panel" id="notesPanel" role="group" aria-label="Why these notes" tabindex="-1" hidden>
+              <p class="sum" id="sum"></p>
+              <p class="homeline" id="homeline"></p>
+            </div>
           </div>
         </div>
       </div>
