@@ -10,24 +10,12 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="css/styles.css">
 <style>
-  /* embed-only layout: the player and a JSON box, none of the full app's chord-input/arrangement-editor chrome */
+  /* embed-only layout: just the player, none of the full app's chord-input/arrangement-editor chrome */
   .wrap{padding-block:16px 24px}
-  .embedBox{display:flex;flex-direction:column;gap:8px;margin-bottom:4px}
-  .embedBox textarea{width:100%;min-height:120px;border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:10px 12px;font-family:var(--f-mono);font-size:12.5px;line-height:1.5;resize:vertical}
-  .embedBox .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 </style>
 </head>
 <body>
 <div class="wrap">
-
-  <div class="embedBox">
-    <label class="eyebrow" for="embedJson">Song JSON</label>
-    <textarea id="embedJson" spellcheck="false" aria-label="Song JSON"></textarea>
-    <div class="row">
-      <button class="btn pri" id="embedLoad" type="button">Load song</button>
-      <p class="msg" id="embedMsg" role="status"></p>
-    </div>
-  </div>
 
   <section>
     <div class="boardbar">
@@ -66,20 +54,16 @@
     <p class="scrollhint">Swipe the fretboard sideways to see the whole neck.</p>
   </section>
 
-  <section class="legend">
-    <div class="lg"><svg width="26" height="26"><rect x="2" y="2" width="22" height="22" rx="6" fill="var(--patina)" stroke="var(--patina-ink)" stroke-width="2.5"/></svg><div><b>Home note</b><span>Square dot. Ending a lick here always sounds finished.</span></div></div>
-    <div class="lg"><svg width="26" height="26"><circle cx="13" cy="13" r="11" fill="var(--brass)"/></svg><div><b>Chord notes</b><span>Part of the chord playing now. Land on these and hold them.</span></div></div>
-    <div class="lg"><svg width="26" height="26"><circle cx="13" cy="13" r="11" fill="var(--patina)"/></svg><div><b>Song notes</b><span>Fit the whole song. Use them freely to get between gold notes.</span></div></div>
-    <div class="lg"><svg width="26" height="26"><circle cx="13" cy="13" r="10" fill="none" stroke="var(--careful-text)" stroke-width="1.8" stroke-dasharray="3.2 2.4"/></svg><div><b>Careful</b><span>Rubs against the current chord. Slide through it, don't hold it.</span></div></div>
-  </section>
-
   <div hidden aria-hidden="true">
-    <!-- stub elements that the shared board/audio/readout modules wire up unconditionally,
+    <!-- stub elements that the shared board/audio/readout/embed modules wire up unconditionally,
          but that this embed's stripped-down layout has no visible place for -->
     <div id="tiles"></div><p id="sum"></p><p id="homeline"></p><span id="nowName"></span><p id="nowTxt"></p><span id="nextTxt"></span>
     <div id="notesDd"><button id="notesToggle" type="button"></button><div id="notesPanel" hidden></div></div>
     <input type="range" id="mixGtr"><input type="range" id="mixBass"><input type="range" id="mixDrums">
     <div id="arr"></div>
+    <textarea id="embedJson"></textarea>
+    <button id="embedLoad" type="button"></button>
+    <p id="embedMsg"></p>
   </div>
 
 </div>
