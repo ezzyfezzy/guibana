@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Guibana player (embed)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="css/styles.css">
+<style>
+  /* embed-only layout: the player and a JSON box, none of the full app's chord-input/arrangement-editor chrome */
+  .wrap{padding-block:16px 24px}
+  .embedBox{display:flex;flex-direction:column;gap:8px;margin-bottom:4px}
+  .embedBox textarea{width:100%;min-height:120px;border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:10px 12px;font-family:var(--f-mono);font-size:12.5px;line-height:1.5;resize:vertical}
+  .embedBox .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="embedBox">
+    <label class="eyebrow" for="embedJson">Song JSON</label>
+    <textarea id="embedJson" spellcheck="false" aria-label="Song JSON"></textarea>
+    <div class="row">
+      <button class="btn pri" id="embedLoad" type="button">Load song</button>
+      <p class="msg" id="embedMsg" role="status"></p>
+    </div>
+  </div>
+
+  <section>
+    <div class="boardbar">
+      <div class="chips" id="chips" role="group" aria-label="Chord playing now"></div>
+      <div class="ctrls">
+        <label class="tempo"><span>Speed</span><input type="range" id="tempo" min="50" max="180" step="2"><output id="tempoOut"></output></label>
+        <button class="play" id="play" type="button"></button>
+      </div>
+      <div class="pos" id="pos" hidden></div>
+    </div>
+    <div class="secwrap" id="secWrap" hidden>
+      <div class="seccard" id="secCard" aria-live="polite">
+        <span class="secbar" aria-hidden="true"></span>
+        <div class="secnow"><b id="secName"></b><span id="secMeta"></span></div>
+        <div class="secnext" id="secNext"></div>
+      </div>
+      <div class="timeline" id="timeline" role="group" aria-label="Song sections. Choose one to play from there."></div>
+    </div>
+    <div class="boardbar">
+      <div class="ctrls">
+        <div class="seg" role="group" aria-label="How much of the neck">
+          <button id="vBox" type="button">Easy box</button>
+          <button id="vNeck" type="button">Whole neck</button>
+        </div>
+        <div class="seg" role="group" aria-label="Dot labels">
+          <button id="lbNotes" type="button">Note names</button>
+          <button id="lbDeg" type="button">Intervals</button>
+        </div>
+      </div>
+      <div class="ctrls">
+        <span class="tonelab" id="toneLab">Guitar tone</span><span class="snd" id="snd" aria-live="polite"></span>
+        <div class="seg tone" id="toneSel" role="group" aria-labelledby="toneLab"></div>
+      </div>
+    </div>
+    <div class="boardscroll" id="boardScroll"><svg id="board" role="img" aria-label="Guitar fretboard in standard tuning"></svg></div>
+    <p class="scrollhint">Swipe the fretboard sideways to see the whole neck.</p>
+  </section>
+
+  <section class="legend">
+    <div class="lg"><svg width="26" height="26"><rect x="2" y="2" width="22" height="22" rx="6" fill="var(--patina)" stroke="var(--patina-ink)" stroke-width="2.5"/></svg><div><b>Home note</b><span>Square dot. Ending a lick here always sounds finished.</span></div></div>
+    <div class="lg"><svg width="26" height="26"><circle cx="13" cy="13" r="11" fill="var(--brass)"/></svg><div><b>Chord notes</b><span>Part of the chord playing now. Land on these and hold them.</span></div></div>
+    <div class="lg"><svg width="26" height="26"><circle cx="13" cy="13" r="11" fill="var(--patina)"/></svg><div><b>Song notes</b><span>Fit the whole song. Use them freely to get between gold notes.</span></div></div>
+    <div class="lg"><svg width="26" height="26"><circle cx="13" cy="13" r="10" fill="none" stroke="var(--careful-text)" stroke-width="1.8" stroke-dasharray="3.2 2.4"/></svg><div><b>Careful</b><span>Rubs against the current chord. Slide through it, don't hold it.</span></div></div>
+  </section>
+
+  <div hidden aria-hidden="true">
+    <!-- stub elements that the shared board/audio/readout modules wire up unconditionally,
+         but that this embed's stripped-down layout has no visible place for -->
+    <div id="tiles"></div><p id="sum"></p><p id="homeline"></p><span id="nowName"></span><p id="nowTxt"></p><span id="nextTxt"></span>
+    <input type="range" id="mixGtr"><input type="range" id="mixBass"><input type="range" id="mixDrums">
+    <div id="arr"></div>
+  </div>
+
+</div>
+
+<script>window.GUIBANA_STORAGE_KEY='guibana-embed-v1';</script>
+<script type="module" src="js/embed.js"></script>
+
+</body>
+</html>
