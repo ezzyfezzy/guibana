@@ -71,5 +71,21 @@
 <script>window.GUIBANA_STORAGE_KEY='guibana-embed-v1';</script>
 <script type="module" src="js/embed.js"></script>
 
+<script>
+/* ---------- tell a host page how tall the player actually is, so it can size
+   its iframe to fit instead of guessing a fixed height (varies a lot by width:
+   the controls wrap onto more lines on narrow screens) ---------- */
+(() => {
+  if (window.parent === window) {
+    return;
+  }
+
+  const report = () => window.parent.postMessage({ type: 'guibana-embed-height', height: document.documentElement.scrollHeight }, '*');
+
+  new ResizeObserver(report).observe(document.documentElement);
+  window.addEventListener('load', report);
+})();
+</script>
+
 </body>
 </html>
