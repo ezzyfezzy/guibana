@@ -125,7 +125,7 @@ h1 span{color:var(--accent)}
 .clock .hm{fill:var(--brass)}
 
 /* readout */
-.notes-btn{position:relative;width:100%;display:flex;flex-direction:column;gap:10px;text-align:left;padding-right:38px}
+.notes-btn{position:relative;width:100%;display:flex;align-items:center;text-align:left;padding-right:38px}
 #notesDd[data-open="true"] .notes-btn{border-color:var(--accent)}
 .chev-btn{position:absolute;top:12px;right:8px;background:transparent;border:0;padding:4px;display:flex}
 .chev-btn .chev{transform:rotate(45deg) translate(-3px,-3px)}
@@ -142,7 +142,7 @@ h1 span{color:var(--accent)}
 .sum{margin:0;font-size:15px}
 .sum b{font-weight:600}
 .homeline{margin:4px 0 0;font-size:13.5px;color:var(--muted)}
-.now{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.now{border-bottom:1px solid var(--line);padding-bottom:14px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
 .now .cn{font-family:var(--f-display);font-weight:800;font-size:30px;line-height:1;min-width:44px}
 .now p{margin:0;font-size:14px;color:var(--muted);flex:1;min-width:180px}
 .now p b{color:var(--ink);font-weight:600}
