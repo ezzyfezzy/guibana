@@ -14,8 +14,13 @@ import './ai-prompt.js';
 
 /* ---------- song source: simple chords or arrangement ---------- */
 const PRESETS=['A C D','G C D','Am F C G','C G Am F','E A B','Dm7 G7 Cmaj7','Em C G D'];
-$('presets').insertAdjacentHTML('beforeend',PRESETS.map(p=>`<button type="button" class="pre">${p}</button>`).join(''));
-$('presets').addEventListener('click',e=>{const b=e.target.closest('.pre');if(!b)return;$('song').value=b.textContent;onSong();});
+$('presets').insertAdjacentHTML('beforeend',PRESETS.map(p=>`<button type="button" class="pre" role="option">${p}</button>`).join(''));
+function openEx(){$('presets').hidden=false;$('exBtn').setAttribute('aria-expanded','true');}
+function closeEx(focusBtn){$('presets').hidden=true;$('exBtn').setAttribute('aria-expanded','false');if(focusBtn)$('exBtn').focus();}
+$('exBtn').onclick=()=>$('presets').hidden?openEx():closeEx();
+$('presets').addEventListener('click',e=>{const b=e.target.closest('.pre');if(!b)return;$('song').value=b.textContent;onSong();closeEx(true);});
+document.addEventListener('pointerdown',e=>{if(!$('presets').hidden&&!$('exDd').contains(e.target))closeEx();});
+$('exDd').addEventListener('keydown',e=>{if(e.key==='Escape')closeEx(true);});
 $('song').addEventListener('input',onSong);
 $('clear').onclick=()=>{$('song').value='';onSong();$('song').focus();};
 function onSong(){state.song=$('song').value; analyseSong(); save(); renderAll();}
