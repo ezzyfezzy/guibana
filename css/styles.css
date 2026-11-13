@@ -54,7 +54,8 @@ h1 span{color:var(--accent)}
 @media (max-width:780px){.soundnotes{flex-direction:column}}
 
 /* song input */
-.songbox{display:flex;align-items:center;background:var(--surface);border:1.5px solid var(--line);border-radius:12px;padding:4px 6px 4px 14px;gap:8px}
+.songrow{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px}
+.songbox{display:flex;align-items:center;background:var(--surface);border:1.5px solid var(--line);border-radius:12px;padding:4px 6px 4px 14px;gap:8px;flex:1 1 240px}
 .songbox:focus-within{border-color:var(--accent)}
 #song{flex:1;min-width:0;border:0;background:transparent;font-family:var(--f-display);font-weight:700;font-size:26px;letter-spacing:.01em;padding:6px 0;outline:none}
 .textbtn{border:0;background:transparent;color:var(--muted);font-size:13px;padding:6px 8px;border-radius:8px}
@@ -63,7 +64,8 @@ h1 span{color:var(--accent)}
 .help.err{color:var(--spicy)}
 .presets{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:8px}
 .presets span{font-size:12.5px;color:var(--muted);margin-right:2px}
-.inlineInfo{border-top:0;padding-top:0;margin-top:8px}
+.inlineInfo{border-top:0;padding-top:0;flex:0 0 auto}
+.inlineInfo[open]{flex-basis:100%}
 .inlineInfo summary{font-size:13px;font-weight:500;list-style:none}
 .inlineInfo summary::-webkit-details-marker{display:none}
 .inlineInfo summary::before{content:'ⓘ ';color:var(--muted)}
@@ -71,7 +73,7 @@ h1 span{color:var(--accent)}
 .inlineInfo .presets{margin-top:0}
 .pre{border:1px solid var(--line);background:transparent;border-radius:999px;padding:3px 11px;font-family:var(--f-mono);font-size:12.5px}
 .pre:hover{border-color:var(--accent);color:var(--accent)}
-.arrlink{margin-top:12px;display:inline-flex;align-items:center;gap:8px;border:1.5px dashed var(--line);background:transparent;border-radius:10px;padding:8px 12px;font-size:14px;font-weight:500}
+.arrlink{display:inline-flex;align-items:center;gap:8px;border:1.5px dashed var(--line);background:transparent;border-radius:10px;padding:8px 12px;font-size:14px;font-weight:500;flex:0 0 auto}
 .arrlink:hover{border-color:var(--accent);color:var(--accent)}
 .arrlink svg{fill:none;stroke:currentColor;stroke-width:1.8}
 
