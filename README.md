@@ -74,6 +74,80 @@ A plain HTML/CSS/JS app — no framework, no build step required to run it.
 Outside claude.ai, the "Download JSON" button is hidden (it depends on a
 Claude artifact feature) — use "Copy JSON" instead.
 
+## Song links
+
+A song link is just Guibana's URL with a `#song-<code>` hash appended. Any
+app that already has a song as JSON can build that hash itself, without
+importing any of Guibana's code:
+
+```
+#song-<z|r><base32-text>
+```
+
+- `z` means the JSON bytes are raw-deflated (RFC 1951 "deflate-raw" — no
+  zlib or gzip header) before encoding. `r` means the JSON bytes are encoded
+  as-is, uncompressed — simpler to produce, and still opens fine, just a
+  longer link.
+- `<base32-text>` is those bytes (compressed or not) base32-encoded with
+  Guibana's own alphabet, `abcdefghijklmnopqrstuvwxyz234567` (lowercase, no
+  `=` padding), packing 5 bits per output character, most-significant-bit
+  first, zero-padding only the final partial group.
+
+The JSON itself matches what "Copy JSON" / "Download JSON" produce:
+
+```jsonc
+{
+  "name": "My song",
+  "tempo": 100,          // optional, clamped to 50–180
+  "style": "folk",       // optional, id from STYLES in js/theory.js
+  "tone": "nylon",       // optional, id from TONES in js/audio.js
+  "sets": [
+    {
+      "name": "Verse",
+      "repeat": 1,
+      "strum": "folk",   // id from STRUMS in js/theory.js
+      "beats": 4,        // 2, 4, or 8
+      "lines": [
+        {"chords": "Am F C G", "repeat": 1, "bass": "off", "drums": "off"}
+      ]
+    }
+  ]
+}
+```
+
+Minimal example (Node.js), using the uncompressed `r` variant so there's no
+dependency on a raw-deflate implementation:
+
+```js
+const B32 = 'abcdefghijklmnopqrstuvwxyz234567';
+function b32(bytes) {
+  let bits = 0, val = 0, out = '';
+  for (const b of bytes) {
+    val = (val << 8) | b; bits += 8;
+    while (bits >= 5) { out += B32[(val >>> (bits - 5)) & 31]; bits -= 5; }
+    val &= (1 << bits) - 1;
+  }
+  if (bits > 0) out += B32[(val << (5 - bits)) & 31];
+  return out;
+}
+
+function songLink(song, baseUrl) {
+  const bytes = Buffer.from(JSON.stringify(song), 'utf8');
+  return `${baseUrl}#song-r${b32(bytes)}`;
+}
+
+songLink({name: 'My song', sets: [/* ... */]}, 'https://your-guibana-host/');
+```
+
+For the shorter `z` variant, raw-deflate the JSON bytes first — in Node,
+`zlib.deflateRawSync(bytes)` — then base32-encode that and prefix with
+`song-z` instead of `song-r`.
+
+Opening the resulting link (in a browser, or by setting `location.hash` on
+an already-open Guibana tab) loads the song straight in — no server
+round-trip, nothing to upload. See `js/songlinks.js` for the exact
+encode/decode Guibana itself uses.
+
 ## Credits
 
 - Guitar and bass samples: [tonejs-instruments](https://github.com/nbrosowsky/tonejs-instruments)
