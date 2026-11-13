@@ -12,6 +12,8 @@ A  C  D
 
 → a fretboard, a backing track, and the notes that fit.
 
+![Guibana's fretboard player, showing the notes that fit over E A B](docs/screenshots/fretboard-player.png)
+
 ## What it does
 
 - **Type chords, get notes.** Paste a chord sequence (`Am F C G`) and see the
@@ -20,6 +22,8 @@ A  C  D
 - **Build real arrangements.** Go beyond a flat chord list: verses, choruses,
   repeats, strum/bass/drum patterns, tempo and section markers, with a visual
   timeline and count-in.
+
+  ![The arrangement editor, with Intro, Harmonica Intro, and Intro 2 sections](docs/screenshots/arrangement-editor.png)
 - **Play along.** A backing loop (guitar, bass, and drums) keeps time while
   the fretboard highlights what to play, in "easy box" or "whole neck" view,
   labeled by note name or interval.
