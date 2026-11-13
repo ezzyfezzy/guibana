@@ -21,6 +21,14 @@ export function renderReadout(){
 }
 $('tiles').addEventListener('click',e=>{const b=e.target.closest('.tile');if(!b)return;ensureAudio();if(!rt.ctx)return;pluck(52+((+b.dataset.pc-4+12)%12),rt.ctx.currentTime+.005,.55);});
 
+/* ---------- why-these-notes dropdown ---------- */
+let notesOpen=false;
+function openNotes(){notesOpen=true;$('notesPanel').hidden=false;$('notesToggle').setAttribute('aria-expanded','true');$('notesDd').dataset.open='true';}
+function closeNotes(focusBtn){notesOpen=false;$('notesPanel').hidden=true;$('notesToggle').setAttribute('aria-expanded','false');delete $('notesDd').dataset.open;if(focusBtn)$('notesToggle').focus();}
+$('notesToggle').addEventListener('click',()=>notesOpen?closeNotes():openNotes());
+$('notesToggle').addEventListener('keydown',e=>{if(e.key==='Escape')closeNotes(true);});
+document.addEventListener('pointerdown',e=>{if(notesOpen&&!$('notesDd').contains(e.target))closeNotes();});
+
 /* ---------- chips ---------- */
 export function renderChips(){
   $('chips').innerHTML=`<span class="lab">Chord now</span>`+rt.chords.map((c,i)=>
