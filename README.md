@@ -52,6 +52,52 @@ cd guibana
 python3 -m http.server 8000
 ```
 
+## Embedding just the player
+
+`embed.html` is a second, self-contained page with only the fretboard player —
+chord chips, speed/play, box/neck and note-name/interval toggles, the guitar
+tone picker, the fretboard itself, and the legend. None of the chord-typing
+box, the arrangement editor dialog, or the "Make with AI" pane. It drives
+itself from song JSON instead of a text input, so you can drop it into any
+existing page and feed it a song from your own code.
+
+Build/serve it the same way as the main app (`npm run dev` / `npm run build`
++ `npm run preview`), then embed it with an iframe:
+
+```html
+<iframe src="https://your-host/embed.html" width="100%" height="560" style="border:0"></iframe>
+```
+
+There are three ways to give it a song:
+
+1. **The "Song JSON" box on the page itself.** Paste JSON and press *Load
+   song* — this is there so the embed is usable on its own, with no host-page
+   code at all.
+2. **A URL query param**, handy for static links:
+   `embed.html?song=` + `encodeURIComponent(JSON.stringify(song))`.
+3. **From the host page's own JavaScript**, once the iframe has loaded:
+   ```js
+   iframe.contentWindow.postMessage({type: 'guibana-song', song}, '*');
+   ```
+   If you're including `js/embed.js` directly on your own page instead of
+   using an iframe (same origin, no sandboxing), call
+   `window.guibanaLoadSong(song)` instead of posting a message.
+
+`song` is JSON in one of two shapes:
+
+- **Simple** — just a chord loop, no backing band:
+  ```json
+  {"chords": "Am F C G"}
+  ```
+- **Full arrangement** — sets, repeats, strum/bass/drum patterns, tempo,
+  style and tone — the same format produced by "Copy JSON" in the main app's
+  arrangement editor and described in its "Make with AI" prompt.
+
+The embed keeps its own `localStorage` key (`guibana-embed-v1`, set via
+`window.GUIBANA_STORAGE_KEY` before `js/embed.js` loads) so it won't clash
+with a full Guibana instance's saved song if both ever end up on the same
+origin.
+
 ## Under the hood
 
 A plain HTML/CSS/JS app — no framework, no build step required to run it.
@@ -69,6 +115,8 @@ A plain HTML/CSS/JS app — no framework, no build step required to run it.
 | `js/songlinks.js` | encoding songs into the URL hash |
 | `js/ai-prompt.js` | the "Make with AI" pane |
 | `js/app.js` | wires everything together and boots the app |
+| `embed.html` | standalone page with just the fretboard player (see above) |
+| `js/embed.js` | wires the embed's player and JSON-loading, reusing the same theory/board/audio/playback modules |
 | `public/smp/` | recorded guitar/bass/drum samples |
 
 Outside claude.ai, the "Download JSON" button is hidden (it depends on a
