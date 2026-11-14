@@ -5,7 +5,7 @@ import {cleanArr} from './arrangement.js';
    The storage key can be overridden with window.GUIBANA_STORAGE_KEY (the embed player
    sets its own key so it doesn't share saved state with a full app on the same origin). */
 const KEY=window.GUIBANA_STORAGE_KEY||'noodle-map-v2';
-export const state={song:'A C D',style:'auto',home:'auto',view:'box',labels:'notes',careful:true,tempo:90,cur:0,arr:null,tone:'acoustic',mix:{gtr:1,bass:.9,drums:.8}};
+export const state={song:'A C D',style:'auto',home:'auto',view:'box',labels:'notes',careful:true,tempo:90,cur:0,arr:null,tone:'acoustic',mix:{gtr:1,bass:.9,drums:.8},capo:0};
 try{
   const s=JSON.parse(localStorage.getItem(KEY)||'null');
   if(s&&typeof s.song==='string'&&SBY[s.style]){

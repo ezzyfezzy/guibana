@@ -25,6 +25,7 @@ export function loadSong(obj){
   if(obj.tempo) state.tempo=clampN(obj.tempo,50,180);
   if(obj.style&&SBY[obj.style]) state.style=obj.style;
   if(obj.tone&&TONES[obj.tone]) state.tone=obj.tone;
+  if(obj.capo!=null) state.capo=clampN(obj.capo,0,12);
   save();
   analyseArr();
   renderAll();
