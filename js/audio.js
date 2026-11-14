@@ -120,7 +120,7 @@ function voicing(c){
 }
 export function strum(c,vel,dir,t,dur,mute){ensureAudio(); if(!rt.ctx) return; t=t||rt.ctx.currentTime+.02;
   const T=T_(); if(T.palm&&dir==='U') dir='D';
-  let notes=voicing(c); if(dir==='U') notes=notes.slice(-4).reverse();
+  let notes=voicing(c).map(n=>n+(state.capo||0)); if(dir==='U') notes=notes.slice(-4).reverse();
   const spread=T.spread*(dir==='U'?.8:1)*(1.15-.3*Math.min(1,vel)), v=vel*(.92+Math.random()*.12);
   notes.forEach((m,i)=>pluck(m,t+i*spread+Math.random()*.003,(dir==='D'&&i===0?.55:.36)*v*(dir==='U'?.85:1),dur,mute));}
 export function setTone(id){
@@ -177,7 +177,7 @@ const DRUM={
   ride:(t,v)=>{noiseHit(t,.7,[['highpass',5000],['bandpass',7500,1.2]],v*.16,.002); [3.1,4.7,5.9].forEach(r=>toneHit(t,'square',r*290,null,.5,v*.012));},
   crash:(t,v)=>noiseHit(t,1.6,[['highpass',4200]],v*.36,.003)
 };
-function bassBase(root){return 28+((root-4+12)%12);}
+function bassBase(root){return 28+((root-4+12)%12)+(state.capo||0);}
 export function playBass(ev,next,t0,slots,slotPos,slot,swingT){
   const B=BSBY[ev.bass]; if(!B||B.id==='off') return;
   const c=ev.c, base=bassBase(c.root), third=c.iv.includes(3)?3:c.iv.includes(4)?4:c.iv.includes(5)?5:2, fifth=c.iv.includes(7)?7:c.iv.includes(6)?6:c.iv.includes(8)?8:7;
